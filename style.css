@@ -1,0 +1,296 @@
+/* Variables de color - Ajustadas para el nuevo estilo */
+:root {
+    --color-primary: #E63946; /* Rojo fuerte - Se usará para texto y acentos principales */
+    --color-secondary: #1D3557; /* Azul oscuro - Usado para texto y sombras profundas */
+    --color-accent: #A8DADC; /* Azul claro/cian - Acentos sutiles */
+    --color-text-light: #F1FAEE; /* Blanco roto */
+    --color-background-soft: #F7F7F7; /* Fondo general suave */
+    --color-shadow-light: rgba(255, 255, 255, 0.7); /* Sombra clara (Neumorphism) */
+    --color-shadow-dark: rgba(0, 0, 0, 0.15); /* Sombra oscura (Neumorphism) */
+}
+
+/* Reset Básico - Se mantiene la limpieza */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Poppins es más moderno */
+}
+
+/* Estilo general del body */
+body {
+    background-color: var(--color-background-soft); /* Fondo suave */
+    color: var(--color-secondary);
+    min-height: 100vh;
+}
+
+/* Botones - Estilo Base */
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    transition: all 0.3s ease;
+    padding: 0;
+    outline: none; /* Mejor experiencia de usuario */
+}
+
+/* --- LISTA DE ELEMENTOS (P. EJ. POKÉMON) --- */
+
+.c-lista, .c-contenedor-lista {
+    display: flex;
+    gap: 20px; /* Más espacio entre ítems */
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+/* Contenedor de cada Pokémon en la lista - Estilo suave */
+.c-lista-pokemon {
+    background-color: var(--color-background-soft);
+    width: calc(50% - 10px); /* Ajuste para el nuevo gap */
+    padding: 18px;
+    text-align: center;
+    border-radius: 12px; /* Más redondeado */
+    /* Neumorphism/Soft Shadow Effect */
+    box-shadow: 6px 6px 12px var(--color-shadow-dark),
+                -6px -6px 12px var(--color-shadow-light);
+    transition: all 0.3s ease;
+}
+
+.c-lista-pokemon:hover {
+    transform: translateY(-5px); /* Efecto de elevación más notable */
+    box-shadow: 8px 8px 16px var(--color-shadow-dark),
+                -8px -8px 16px var(--color-shadow-light);
+}
+
+/* Botón dentro de la lista */
+.c-lista button {
+    width: 100%;
+    padding: 12px;
+    background: var(--color-primary); /* ROJO */
+    color: var(--color-text-light);
+    border-radius: 8px;
+    font-weight: 600; /* Un poco menos bold */
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(230, 57, 70, 0.4); /* Sombra con color primario */
+}
+
+.c-lista button:hover {
+    background-color: #D62C38;
+    box-shadow: 0 6px 8px rgba(230, 57, 70, 0.6);
+}
+
+/* --- NAVEGACIÓN INFERIOR (Fixed Nav) --- */
+
+.c-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: var(--color-secondary);
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    padding: 12px 15px;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.25); /* Sombra más fuerte hacia arriba */
+    z-index: 100;
+}
+
+.c-nav-item {
+    width: 20%;
+    color: var(--color-accent);
+    padding: 10px 0;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.c-nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Overlay más visible */
+    color: var(--color-text-light);
+}
+
+/* Ítem activo con un círculo sutil */
+.c-nav-item.active {
+    color: var(--color-primary); /* ROJO */
+    font-weight: bold;
+    background-color: var(--color-text-light); /* Fondo claro para destacar */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra interna para efecto de "presionado" */
+}
+
+/* --- MIS POKÉMON / ITEMS PROPIOS --- */
+
+.c-unpoke {
+    background-color: var(--color-secondary);
+    width: calc(25% - 15px); /* Ajuste para el nuevo gap */
+    height: 100px; /* Un poco más alto */
+    padding: 10px;
+    text-align: center;
+    color: var(--color-text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    /* Sombra interna para un efecto de "hundido" */
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.4),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--color-primary); /* Borde rojo más fino */
+}
+
+.c-unpoke:hover {
+    background-color: #2a4c73;
+    transform: scale(1.03);
+}
+
+.c-mios-pokemon {
+    background-color: var(--color-background-soft);
+    color: var(--color-secondary);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* --- SELECTORES / FORMULARIOS --- */
+
+.selectors {
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 0 20px;
+}
+
+.selectors input {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    /* Efecto "hundido" en el input */
+    box-shadow: inset 3px 3px 6px var(--color-shadow-dark),
+                inset -3px -3px 6px var(--color-shadow-light);
+    background-color: var(--color-background-soft);
+    outline: none;
+    transition: box-shadow 0.3s;
+}
+
+.selectors input:focus {
+    /* Mantiene el efecto "hundido" y añade un borde rojo para indicar enfoque */
+    box-shadow: inset 3px 3px 6px var(--color-shadow-dark),
+                inset -3px -3px 6px var(--color-shadow-light),
+                0 0 0 3px var(--color-primary);
+}
+
+.selectors button {
+    padding: 12px 25px;
+    font-size: 16px;
+    background-color: var(--color-primary); /* ROJO */
+    color: var(--color-text-light);
+    border-radius: 10px;
+    font-weight: 600;
+    /* Efecto Neumorphism suave en el botón */
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2),
+                -4px -4px 8px rgba(255, 255, 255, 0.7);
+    transform: translateY(0);
+}
+
+.selectors button:active {
+    /* Al hacer clic, se simula el efecto "hundido" */
+    box-shadow: inset 3px 3px 6px var(--color-shadow-dark),
+                inset -3px -3px 6px var(--color-shadow-light);
+    transform: translateY(1px);
+}
+
+/* --- COMPARADOR Y TARJETAS (CARDS) --- */
+
+.comparador {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    padding: 0 20px;
+}
+
+.card {
+    background-color: var(--color-background-soft);
+    padding: 25px;
+    border-radius: 18px; /* Más redondeado */
+    /* Sombra de tarjeta elegante */
+    box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.1),
+                -10px -10px 25px rgba(255, 255, 255, 0.9);
+    width: 300px; /* Más ancho */
+    text-align: center;
+    border-left: 6px solid var(--color-primary); /* Borde lateral ROJO para diseño */
+}
+
+.card img {
+    width: 120px;
+    margin-bottom: 15px;
+}
+
+.stats {
+    text-align: left;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid var(--color-accent); /* Separador más grueso y visible */
+}
+
+.stats p {
+    margin: 8px 0;
+    font-size: 16px;
+    color: var(--color-secondary); /* Asegura que el texto sea oscuro */
+}
+.stats p strong {
+    color: var(--color-primary); /* ROJO para los valores */
+    font-weight: 700;
+}
+
+
+/* --- SECCIÓN INFORMATIVA / DE CONTENIDO --- */
+
+.informativa {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    text-align: left;
+    background-color: var(--color-background-soft);
+    border-radius: 18px;
+    /* Sombra sutil de la sección */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
+                -5px -5px 15px rgba(255, 255, 255, 0.9);
+}
+
+.informativa h1 {
+    text-align: center;
+    color: var(--color-primary); /* ROJO */
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px; /* Espaciado para el título */
+}
+
+.informativa h2 {
+    margin-top: 30px;
+    color: var(--color-secondary);
+    border-bottom: 3px solid var(--color-primary); /* Subrayado ROJO fuerte */
+    padding-bottom: 8px;
+    font-weight: 600;
+}
+
+.informativa p,
+.informativa li {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+.informativa a {
+    color: var(--color-primary); /* ROJO para los enlaces */
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.informativa a:hover {
+    text-decoration: underline;
+    color: #D62C38;
+}
