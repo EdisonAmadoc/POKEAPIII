@@ -1,27 +1,31 @@
-/* Variables de color - Ajustadas para el nuevo estilo */
+/* Variables de color - Enfoque en contraste y un rojo de alto impacto */
 :root {
-    --color-primary: #E63946; /* Rojo fuerte - Se usará para texto y acentos principales */
-    --color-secondary: #1D3557; /* Azul oscuro - Usado para texto y sombras profundas */
-    --color-accent: #A8DADC; /* Azul claro/cian - Acentos sutiles */
-    --color-text-light: #F1FAEE; /* Blanco roto */
-    --color-background-soft: #F7F7F7; /* Fondo general suave */
-    --color-shadow-light: rgba(255, 255, 255, 0.7); /* Sombra clara (Neumorphism) */
-    --color-shadow-dark: rgba(0, 0, 0, 0.15); /* Sombra oscura (Neumorphism) */
+    --color-primary: #FF003C; /* Rojo Fuego - Más brillante y audaz */
+    --color-secondary: #0A1C3E; /* Azul Marino Oscuro - Contraste profundo */
+    --color-accent: #00B4D8; /* Cian Vibrante - Para acentos y hover */
+    --color-text-light: #F8F9FA; /* Blanco puro */
+    --color-background-app: #FFFFFF; /* Fondo principal blanco nítido */
+    --color-card-background: #FFFFFF; /* Fondo de tarjetas */
+    --color-shadow-impact: rgba(255, 0, 60, 0.25); /* Sombra con toque de color primario */
 }
 
-/* Reset Básico - Se mantiene la limpieza */
+/* Reset Básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Poppins es más moderno */
+    /* Fuente limpia y moderna */
+    font-family: 'Inter', 'Roboto', sans-serif; 
 }
 
 /* Estilo general del body */
 body {
-    background-color: var(--color-background-soft); /* Fondo suave */
+    background-color: var(--color-background-app);
     color: var(--color-secondary);
     min-height: 100vh;
+    line-height: 1.6;
+    /* Relleno inferior igual a la altura del nav para evitar que el contenido se esconda */
+    padding-bottom: 70px; 
 }
 
 /* Botones - Estilo Base */
@@ -30,175 +34,234 @@ button {
     border: none;
     cursor: pointer;
     margin: 0;
-    transition: all 0.3s ease;
+    /* Transición rápida y nítida */
+    transition: all 0.2s ease-out; 
     padding: 0;
-    outline: none; /* Mejor experiencia de usuario */
+    outline: none;
+    user-select: none;
+}
+
+/* --- NAVEGACIÓN INFERIOR (Fixed Nav) --- */
+
+/* Aplicamos los estilos de .c-nav directamente a la etiqueta <nav> */
+nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    /* Fondo limpio y contraste */
+    background: var(--color-background-app); 
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0; /* Un poco menos de padding */
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    height: 65px; /* Altura fija para consistencia */
+}
+
+nav button {
+    width: 20%;
+    color: var(--color-secondary);
+    padding: 5px 0;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 4px;
+    position: relative;
+    transition: color 0.2s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+}
+
+nav button:hover {
+    color: var(--color-accent); 
+}
+
+/* Se asume que la vista activa tendrá una clase en el botón si usas JS */
+nav button.active {
+    color: var(--color-primary);
+    font-weight: 700;
 }
 
 /* --- LISTA DE ELEMENTOS (P. EJ. POKÉMON) --- */
 
 .c-lista, .c-contenedor-lista {
     display: flex;
-    gap: 20px; /* Más espacio entre ítems */
+    gap: 12px; 
     flex-wrap: wrap;
     padding: 20px;
 }
 
-/* Contenedor de cada Pokémon en la lista - Estilo suave */
+/* Contenedor de cada Pokémon en la lista */
 .c-lista-pokemon {
-    background-color: var(--color-background-soft);
-    width: calc(50% - 10px); /* Ajuste para el nuevo gap */
-    padding: 18px;
+    background-color: var(--color-card-background);
+    width: 100%; /* Default: 100% para móviles */
+    padding: 15px;
     text-align: center;
-    border-radius: 12px; /* Más redondeado */
-    /* Neumorphism/Soft Shadow Effect */
-    box-shadow: 6px 6px 12px var(--color-shadow-dark),
-                -6px -6px 12px var(--color-shadow-light);
-    transition: all 0.3s ease;
+    border-radius: 6px; 
+    border-left: 5px solid var(--color-primary); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-out;
+    cursor: pointer; /* Añadido cursor para indicar clic */
 }
 
 .c-lista-pokemon:hover {
-    transform: translateY(-5px); /* Efecto de elevación más notable */
-    box-shadow: 8px 8px 16px var(--color-shadow-dark),
-                -8px -8px 16px var(--color-shadow-light);
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 20px var(--color-shadow-impact); 
 }
 
-/* Botón dentro de la lista */
+/* Media query para tabletas/escritorio */
+@media (min-width: 600px) {
+    .c-lista-pokemon {
+        width: calc(33.333% - 8px); /* 3 columnas */
+    }
+}
+@media (min-width: 992px) {
+    .c-lista-pokemon {
+        width: calc(20% - 10px); /* 5 columnas */
+    }
+}
+
+/* Botón dentro de la lista (o un botón de acción) */
 .c-lista button {
     width: 100%;
-    padding: 12px;
-    background: var(--color-primary); /* ROJO */
+    padding: 10px;
+    background: var(--color-primary); 
     color: var(--color-text-light);
-    border-radius: 8px;
-    font-weight: 600; /* Un poco menos bold */
+    border-radius: 4px; 
+    font-weight: 700;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
-    box-shadow: 0 4px 6px rgba(230, 57, 70, 0.4); /* Sombra con color primario */
+    box-shadow: 0 4px 10px var(--color-shadow-impact);
 }
 
 .c-lista button:hover {
-    background-color: #D62C38;
-    box-shadow: 0 6px 8px rgba(230, 57, 70, 0.6);
+    background-color: #D30030; 
+    box-shadow: 0 6px 15px var(--color-shadow-impact);
+}
+.c-lista button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px var(--color-shadow-impact);
 }
 
-/* --- NAVEGACIÓN INFERIOR (Fixed Nav) --- */
+/* --- MIS POKÉMON / ÁLBUM (Capturados) --- */
 
-.c-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background: var(--color-secondary);
-    width: 100%;
+/* Contenedor principal de la rejilla del álbum */
+.album-grid {
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    padding: 12px 15px;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.25); /* Sombra más fuerte hacia arriba */
-    z-index: 100;
+    flex-wrap: wrap;
+    gap: 8px; /* Espacio más compacto */
+    padding: 20px;
+    justify-content: center;
 }
-
-.c-nav-item {
-    width: 20%;
-    color: var(--color-accent);
-    padding: 10px 0;
-    text-align: center;
-    font-size: 14px;
-    border-radius: 6px;
-}
-
-.c-nav-item:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Overlay más visible */
-    color: var(--color-text-light);
-}
-
-/* Ítem activo con un círculo sutil */
-.c-nav-item.active {
-    color: var(--color-primary); /* ROJO */
-    font-weight: bold;
-    background-color: var(--color-text-light); /* Fondo claro para destacar */
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra interna para efecto de "presionado" */
-}
-
-/* --- MIS POKÉMON / ITEMS PROPIOS --- */
 
 .c-unpoke {
-    background-color: var(--color-secondary);
-    width: calc(25% - 15px); /* Ajuste para el nuevo gap */
-    height: 100px; /* Un poco más alto */
-    padding: 10px;
+    background-color: var(--color-secondary); 
+    width: calc(25% - 6px); /* 4 columnas por defecto */
+    height: 75px; /* Más compacto */
+    padding: 5px;
     text-align: center;
     color: var(--color-text-light);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border-radius: 10px;
-    /* Sombra interna para un efecto de "hundido" */
-    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.4),
-                inset -3px -3px 6px rgba(255, 255, 255, 0.2);
-    border: 1px solid var(--color-primary); /* Borde rojo más fino */
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-bottom: 3px solid var(--color-primary); 
+    font-size: 12px;
+}
+
+.c-unpoke > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
 }
 
 .c-unpoke:hover {
-    background-color: #2a4c73;
-    transform: scale(1.03);
+    background-color: #14284d;
+    transform: scale(1.05);
 }
 
+/* Estilo para los capturados (sobrescribe color de fondo del slot) */
 .c-mios-pokemon {
-    background-color: var(--color-background-soft);
+    background-color: var(--color-card-background);
     color: var(--color-secondary);
-    padding: 20px;
-    border-radius: 12px;
+    border: 1px solid var(--color-accent);
 }
+
+/* Media query para el álbum */
+@media (max-width: 480px) {
+    .c-unpoke {
+        width: calc(33.333% - 6px); /* 3 columnas en móviles pequeños */
+        height: 80px;
+    }
+}
+@media (min-width: 992px) {
+    .c-unpoke {
+        width: calc(10% - 8px); /* 10 columnas en escritorio */
+    }
+}
+
 
 /* --- SELECTORES / FORMULARIOS --- */
 
 .selectors {
     margin: 30px auto;
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    gap: 15px;
     flex-wrap: wrap;
     padding: 0 20px;
+    /* Centra los elementos */
+    justify-content: center; 
 }
 
 .selectors input {
     padding: 12px;
     font-size: 16px;
-    border-radius: 10px;
-    border: none;
-    /* Efecto "hundido" en el input */
-    box-shadow: inset 3px 3px 6px var(--color-shadow-dark),
-                inset -3px -3px 6px var(--color-shadow-light);
-    background-color: var(--color-background-soft);
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); 
+    background-color: white;
     outline: none;
-    transition: box-shadow 0.3s;
+    transition: border-color 0.2s;
+    /* Ocupa todo el ancho en móvil */
+    width: 100%;
+}
+/* Estilo específico para input de busqueda */
+.selectors input[type="text"] {
+    max-width: 500px;
 }
 
 .selectors input:focus {
-    /* Mantiene el efecto "hundido" y añade un borde rojo para indicar enfoque */
-    box-shadow: inset 3px 3px 6px var(--color-shadow-dark),
-                inset -3px -3px 6px var(--color-shadow-light),
-                0 0 0 3px var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary); 
 }
 
 .selectors button {
-    padding: 12px 25px;
-    font-size: 16px;
-    background-color: var(--color-primary); /* ROJO */
+    padding: 10px 20px; /* Un poco menos de padding vertical */
+    font-size: 15px;
+    background: var(--color-primary);
     color: var(--color-text-light);
-    border-radius: 10px;
-    font-weight: 600;
-    /* Efecto Neumorphism suave en el botón */
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2),
-                -4px -4px 8px rgba(255, 255, 255, 0.7);
-    transform: translateY(0);
+    border-radius: 4px;
+    font-weight: 700;
+    box-shadow: 0 4px 10px var(--color-shadow-impact);
+    text-transform: capitalize;
 }
 
-.selectors button:active {
-    /* Al hacer clic, se simula el efecto "hundido" */
-    box-shadow: inset 3px 3px 6px var(--color-shadow-dark),
-                inset -3px -3px 6px var(--color-shadow-light);
-    transform: translateY(1px);
+.selectors button:hover {
+    background-color: #D30030;
+}
+
+/* Media query para selectors en desktop */
+@media (min-width: 768px) {
+    .selectors input {
+        width: auto; /* Permite que el input sea más pequeño */
+    }
 }
 
 /* --- COMPARADOR Y TARJETAS (CARDS) --- */
@@ -206,26 +269,39 @@ button {
 .comparador {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 30px;
     flex-wrap: wrap;
     margin-top: 40px;
     padding: 0 20px;
 }
 
 .card {
-    background-color: var(--color-background-soft);
+    background-color: var(--color-card-background);
     padding: 25px;
-    border-radius: 18px; /* Más redondeado */
-    /* Sombra de tarjeta elegante */
-    box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.1),
-                -10px -10px 25px rgba(255, 255, 255, 0.9);
-    width: 300px; /* Más ancho */
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
+    width: 100%; /* Por defecto 100% */
+    max-width: 350px; /* Límite para que no sea muy grande */
     text-align: center;
-    border-left: 6px solid var(--color-primary); /* Borde lateral ROJO para diseño */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cinta superior ROJA para el diseño de la tarjeta */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: var(--color-primary);
 }
 
 .card img {
-    width: 120px;
+    width: 100px;
+    margin-top: 5px; 
     margin-bottom: 15px;
 }
 
@@ -233,16 +309,16 @@ button {
     text-align: left;
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 2px solid var(--color-accent); /* Separador más grueso y visible */
+    border-top: 2px dashed var(--color-accent); 
 }
 
 .stats p {
     margin: 8px 0;
-    font-size: 16px;
-    color: var(--color-secondary); /* Asegura que el texto sea oscuro */
+    font-size: 15px;
+    font-weight: 500;
 }
 .stats p strong {
-    color: var(--color-primary); /* ROJO para los valores */
+    color: var(--color-primary); 
     font-weight: 700;
 }
 
@@ -252,45 +328,51 @@ button {
 .informativa {
     max-width: 900px;
     margin: 40px auto;
-    padding: 40px;
+    padding: 20px; /* Reducido padding en móviles */
     text-align: left;
-    background-color: var(--color-background-soft);
-    border-radius: 18px;
-    /* Sombra sutil de la sección */
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
-                -5px -5px 15px rgba(255, 255, 255, 0.9);
+    background-color: var(--color-card-background);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-top: 5px solid var(--color-accent); 
 }
+/* Aumentar el padding en pantallas más grandes */
+@media (min-width: 768px) {
+    .informativa {
+        padding: 40px; 
+    }
+}
+
 
 .informativa h1 {
     text-align: center;
-    color: var(--color-primary); /* ROJO */
+    color: var(--color-secondary); 
     margin-bottom: 30px;
     text-transform: uppercase;
-    letter-spacing: 1.5px; /* Espaciado para el título */
+    letter-spacing: 2px; /* Reducido para mejor lectura */
 }
 
 .informativa h2 {
     margin-top: 30px;
-    color: var(--color-secondary);
-    border-bottom: 3px solid var(--color-primary); /* Subrayado ROJO fuerte */
+    color: var(--color-primary); 
+    border-bottom: 1px solid var(--color-secondary); 
     padding-bottom: 8px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .informativa p,
 .informativa li {
-    font-size: 18px;
-    line-height: 1.8;
+    font-size: 16px; /* Ajustado a un tamaño estándar */
+    line-height: 1.7;
     margin-bottom: 12px;
 }
 
 .informativa a {
-    color: var(--color-primary); /* ROJO para los enlaces */
-    text-decoration: none;
+    color: var(--color-primary); 
+    text-decoration: underline;
     font-weight: 700;
+    text-underline-offset: 4px; 
 }
 
 .informativa a:hover {
-    text-decoration: underline;
-    color: #D62C38;
+    color: var(--color-secondary);
 }

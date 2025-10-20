@@ -1,137 +1,45 @@
-let pokemones = [];
-let totalPokes = 1025;
+let pokemones = []; // Lista global de todos los Pokémon
+let totalPokes = 1025; // Máximo de Pokémon a cargar
+let misNumeros = JSON.parse(localStorage.getItem("misNumeros")) || []; // IDs de Pokémon capturados
 
-// Conexión para obtener la lista de Pokémon
+/**
+ * Conexión a la API para obtener la lista de Pokémon por tipo o la lista completa.
+ * @param {string} filtrotipo - El tipo de Pokémon a filtrar o "All" para la lista completa.
+ * @returns {Promise<Array<Object>>} - Una promesa que resuelve con la lista de Pokémon.
+ */
 async function conexionLista(filtrotipo) {
-
-  
-  if(filtrotipo == "All"){
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${totalPokes}`);
-    const data = await res.json();
-    return data.results;
-  }else{
-    const res = await fetch(`https://pokeapi.co/api/v2/type/${filtrotipo}`);
-    const data = await res.json();
-
-    const pokemonesTipo = [];
-    for (let i = 0; i < data.pokemon.length; i++) {
-      pokemonesTipo.push(data.pokemon[i].pokemon);
+  try {
+    if (filtrotipo === "All") {
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${totalPokes}`);
+      if (!res.ok) throw new Error("Fallo al obtener la lista completa.");
+      const data = await res.json();
+      return data.results;
+    } else {
+      const res = await fetch(`https://pokeapi.co/api/v2/type/${filtrotipo}`);
+      if (!res.ok) throw new Error(`Fallo al obtener el tipo ${filtrotipo}.`);
+      const data = await res.json();
+      
+      // Mapear los resultados para que coincidan con el formato {name, url} de la lista 'All'
+      return data.pokemon.map(item => item.pokemon);
     }
-    return pokemonesTipo;
+  } catch (error) {
+    console.error("Error en conexionLista:", error);
+    // Retornar un array vacío en caso de error para evitar fallos
+    return []; 
   }
-
-}
-var misNumeros = JSON.parse(localStorage.getItem("misNumeros")) || [];
-
-function Aleatorios(){
-    document.getElementById("nuevos").innerHTML = "";
-    console.log("----------------------------------")
-    let pokesAleatorios = "";
-    for (let i = 0; i < 4; i++) {
-        //let num = Math.floor(Math.random() * rango) + 1;
-        let num = Math.floor(Math.random() * pokemones.length) + 1;
-
-        pokesAleatorios += `
-            <div class="c-lista-pokemon c-un_aleatorio">
-                <p>${num}</p>
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${num}.png" alt="${pokemones[num - 1].name}" width="60" height="60">
-                <p>${pokemones[num - 1].name}</p>
-            </div>`;
-
-
-        misNumeros = JSON.parse(localStorage.getItem("misNumeros")) || [];
-        let existe = false;
-        for(let j = 0; j < misNumeros.length; j++){
-            if(misNumeros[j] === num){
-                existe = true;
-                break; 
-            }
-        }
-
-        if (!existe) {
-            misNumeros.push(num);
-            localStorage.setItem("misNumeros", JSON.stringify(misNumeros));
-            document.getElementById("c-unpoke-" + num).innerHTML = `
-            <div  onclick="Detalle('${num}')">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${num}.png" width="auto" height="45" loading="lazy" alt="${num}">
-                <p>${num}</p>
-            </div>`
-            document.getElementById("c-unpoke-" + num).classList.add("c-mios-pokemon")
-        }
-    }
-
-    document.getElementById("nuevos").innerHTML += pokesAleatorios
-    document.getElementById("contador").innerHTML = `${misNumeros.length} / ${totalPokes}`;
 }
 
-
-
-
-
-function Capturados(){
-    document.getElementById("root").innerHTML = ""
-
-    //crear aleatorios
-    const capturaAleatorea = document.createElement("section");
-    capturaAleatorea.classList.add("c-lista");
-    capturaAleatorea.id = "nuevos"
-
-    //crear boton d aleatorios
-    const boton = document.createElement("button");
-    boton.textContent = "4 nuevos"
-    // Agregar el evento click para generar 4 nuevos pokes
-    boton.addEventListener("click", () => {
-        Aleatorios(); 
-    });
-
-
-    //crear album
-    const seccioncapturados = document.createElement("section");
-    seccioncapturados.classList.add("c-lista");
-
-    let misPokes = "";
-    for (let i = 1; i <= totalPokes; i++) {
-        if(misNumeros.includes(i)){
-            misPokes += `
-            <div class="c-unpoke c-mios-pokemon poke-${i}" onclick="Detalle('${i}')">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png" width="auto" height="45" loading="lazy" alt="${i}">
-                <p>${i}</p>
-            </div>`;
-        }else{
-            misPokes += `
-            <div class="c-unpoke" id="c-unpoke-${i}">
-                <p>${i}</p>
-            </div>
-            `
-        }
-        
-    }
-    seccioncapturados.innerHTML = misPokes;
-
-    //rangos y capturados
-    let contador = document.createElement("p");
-    contador.textContent = `${misNumeros.length} / ${totalPokes}`;
-    contador.id = "contador"
-
-    //añadir al elemento
-    document.getElementById("root").appendChild(contador)
-    document.getElementById("root").appendChild(boton)
-    document.getElementById("root").appendChild(capturaAleatorea)
-    document.getElementById("root").appendChild(seccioncapturados)
-}
-// Cargar todos los Pokémon al iniciar
+/**
+ * Carga todos los Pokémon al iniciar y llama a Home para renderizar la vista.
+ */
 async function General() {
+  // Asegurarse de que la lista se cargue solo una vez
   if (pokemones.length === 0) {
-    pokemones = await conexionLista("All");
+    pokemones = await conexionLista("All"); 
   }
-  Home();
+  // Llama a la vista Home una vez que los datos estén listos
+  Home(); 
 }
 
-General()
-
-async function FiltroConexion(Elfiltro){
-  document.getElementById("la-lista").innerHTML = "";
-  pokemones = await conexionLista(Elfiltro);
-  const listaHTML = generarLista(pokemones);
-  document.getElementById("la-lista").innerHTML = listaHTML;
-}
+// Iniciar la carga de datos al cargar el script
+General();

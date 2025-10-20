@@ -1,3 +1,3 @@
 function pokemon(){
-    alert("Pokemon")
+    alert("Función 'pokemon' lista.")
 }
